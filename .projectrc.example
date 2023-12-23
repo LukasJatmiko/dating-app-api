@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export DB_URI=postgresql://user:password@localhost:5432/datingapp?sslmode=disable
+export DB_DRIVER_TYPE=POSTGRES
+export DB_MAX_OPEN_CONN=3
+export DB_MAX_CONN_LIFETIME=30m
+export DB_MAX_IDLE_CONN=1
+export APP_NAME=dating-app-api
+export APP_PORT=8080
+export AUTH_JWT_PRIVATE_KEY=/path/to/private/key/mykey.key
+export AUTH_JWT_PUBLIC_KEY=/path/to/public/key/mykey.key.pub
