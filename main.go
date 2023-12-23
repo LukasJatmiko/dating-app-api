@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/LukasJatmiko/dating-app-api/constants"
 	"github.com/LukasJatmiko/dating-app-api/driver"
+	"github.com/LukasJatmiko/dating-app-api/packages/dating"
 	"github.com/LukasJatmiko/dating-app-api/types"
 	"github.com/LukasJatmiko/dating-app-api/utils"
+	"github.com/go-playground/validator/v10"
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -37,6 +40,20 @@ func main() {
 		//parse allowed origins from environments
 		AllowOrigins: "*",
 	}))
+
+	api := app.Group("/api")
+	v1 := api.Group("/v1")
+
+	RSAPrivateKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPrivateKey), "~/.ssh/key.pem"))
+	if e != nil {
+		panic(e)
+	}
+	RSAPublicKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPublicKey), "~/.ssh/key.pem.pub"))
+	if e != nil {
+		panic(e)
+	}
+	datingHandler := dating.NewDatingHandler(dbdriver, []byte(RSAPrivateKey), []byte(RSAPublicKey), validator.New())
+	dating.Mount(datingHandler, v1)
 
 	appPort := utils.GetEnvOrDefaultString(string(constants.ENVAppPort), "8080")
 	app.Listen(fmt.Sprintf(":%v", appPort))
