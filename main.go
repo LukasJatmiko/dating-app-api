@@ -44,11 +44,11 @@ func main() {
 	api := app.Group("/api")
 	v1 := api.Group("/v1")
 
-	RSAPrivateKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPrivateKey), "~/.ssh/key.pem"))
+	RSAPrivateKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPrivateKey), "jwtRS256.key"))
 	if e != nil {
 		panic(e)
 	}
-	RSAPublicKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPublicKey), "~/.ssh/key.pem.pub"))
+	RSAPublicKey, e := os.ReadFile(utils.GetEnvOrDefaultString(string(constants.ENVAuthJWTPublicKey), "jwtRS256.key.pub"))
 	if e != nil {
 		panic(e)
 	}
