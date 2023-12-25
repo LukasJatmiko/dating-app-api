@@ -4,7 +4,7 @@
 
     .
     ├── constants               # Application global constants package
-    ├── driver                  # Documentation files (alternatively `doc`)
+    ├── driver                  # connection drivers package
     ├── migrations              # Contains database migrations files
     ├── packages                # Application packages
     ├── tools                   # Tools and utilities
